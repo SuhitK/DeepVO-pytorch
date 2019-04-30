@@ -1,7 +1,8 @@
+import os
+os.environ["CUDA_VISIBLE_DEVICES"]="1"
 import torch
 from torch.utils.data import DataLoader
 import numpy as np
-import os
 import time
 import pandas as pd
 from params import par

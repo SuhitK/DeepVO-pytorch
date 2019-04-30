@@ -8,6 +8,7 @@ from torchvision import transforms
 from PIL import Image
 import torch
 import math
+import ipdb
 
 def clean_unused_images():
 	seq_frame = {'00': ['000', '004540'],
@@ -76,9 +77,9 @@ def calculate_rgb_mean_std(image_path_list, minus_point_5=False):
 		if minus_point_5:
 			img_as_tensor = img_as_tensor - 0.5
 		img_as_np = np.array(img_as_img)
-		img_as_np = np.rollaxis(img_as_np, 2, 0)
-		cnt_pixels += img_as_np.shape[1]*img_as_np.shape[2]
-		for c in range(3):
+		#img_as_np = np.rollaxis(img_as_np, 2, 0)
+		cnt_pixels += img_as_np.shape[0]*img_as_np.shape[1]
+		for c in range(1):
 			mean_tensor[c] += float(torch.sum(img_as_tensor[c]))
 			mean_np[c] += float(np.sum(img_as_np[c]))
 	mean_tensor =  [v / cnt_pixels for v in mean_tensor]
@@ -95,8 +96,8 @@ def calculate_rgb_mean_std(image_path_list, minus_point_5=False):
 		if minus_point_5:
 			img_as_tensor = img_as_tensor - 0.5
 		img_as_np = np.array(img_as_img)
-		img_as_np = np.rollaxis(img_as_np, 2, 0)
-		for c in range(3):
+		#img_as_np = np.rollaxis(img_as_np, 2, 0)
+		for c in range(1):
 			tmp = (img_as_tensor[c] - mean_tensor[c])**2
 			std_tensor[c] += float(torch.sum(tmp))
 			tmp = (img_as_np[c] - mean_np[c])**2
@@ -108,13 +109,14 @@ def calculate_rgb_mean_std(image_path_list, minus_point_5=False):
 
 
 if __name__ == '__main__':
-	clean_unused_images()
-	create_pose_data()
+	#clean_unused_images()
+	#create_pose_data()
 	
 	# Calculate RGB means of images in training videos
-	train_video = ['00', '02', '08', '09', '06', '04', '10']
+	train_video = ['outdoor_day1', 'outdoor_day2']
 	image_path_list = []
 	for folder in train_video:
-		image_path_list += glob.glob('KITTI/images/{}/*.png'.format(folder))
+		image_path_list += glob.glob('MVSECD/images/{}/*.png'.format(folder))
+		#ipdb.set_trace()
 	calculate_rgb_mean_std(image_path_list, minus_point_5=True)
 

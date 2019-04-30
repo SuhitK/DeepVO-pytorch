@@ -4,12 +4,13 @@ class Parameters():
 	def __init__(self):
 		self.n_processors = 8
 		# Path
-		self.data_dir =  '/nfs/nas12.ethz.ch/fs1201/infk_ivc_students/cvg-students/chsiao/KITTI/'
+		self.data_dir =  'MVSECD'
 		self.image_dir = self.data_dir + '/images/'
 		self.pose_dir = self.data_dir + '/pose_GT/'
 		
-		self.train_video = ['00', '01', '02', '05', '08', '09']
-		self.valid_video = ['04', '06', '07', '10']
+		self.train_video = ['outdoor_day1']
+		self.valid_video = ['outdoor_day2']
+		#self.valid_video = ['04', '06', '07', '10']
 		self.partition = None  # partition videos in 'train_video' to train / valid dataset  #0.8
 		
 
@@ -21,7 +22,7 @@ class Parameters():
 		self.img_stds =  (0.2610784009469139, 0.25729316928935814, 0.25163823815039915)
 		self.minus_point_5 = True
 
-		self.seq_len = (5, 7)
+		self.seq_len = (6, 7)
 		self.sample_times = 3
 
 		# Data info path
@@ -52,7 +53,7 @@ class Parameters():
 								# None
 								# './pretrained/flownets_bn_EPE2.459.pth.tar'  
 								# './pretrained/flownets_EPE1.951.pth.tar'
-		self.resume = True  # resume training
+		self.resume = False  # resume training
 		self.resume_t_or_v = '.train'
 		self.load_model_path = 'models/t{}_v{}_im{}x{}_s{}x{}_b{}_rnn{}_{}.model{}'.format(''.join(self.train_video), ''.join(self.valid_video), self.img_h, self.img_w, self.seq_len[0], self.seq_len[1], self.batch_size, self.rnn_hidden_size, '_'.join([k+str(v) for k, v in self.optim.items()]), self.resume_t_or_v)
 		self.load_optimizer_path = 'models/t{}_v{}_im{}x{}_s{}x{}_b{}_rnn{}_{}.optimizer{}'.format(''.join(self.train_video), ''.join(self.valid_video), self.img_h, self.img_w, self.seq_len[0], self.seq_len[1], self.batch_size, self.rnn_hidden_size, '_'.join([k+str(v) for k, v in self.optim.items()]), self.resume_t_or_v)
